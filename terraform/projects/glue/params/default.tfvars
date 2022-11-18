@@ -1,0 +1,5 @@
+region = "us-gov-west-1"
+account-id = "053633994311" 
+app-name = "AWS Glue dbt Project"
+app-shorthand-name = "govglue"
+partition = "aws-us-gov"

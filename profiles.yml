@@ -1,0 +1,20 @@
+govcloud_demo:
+  outputs:
+    dev:
+      type: glue
+      query-comment: Glue DBT
+      role_arn: "{{ env_var('GLUE_CLIENT_ROLE') }}"
+      region: "{{ env_var('AWS_REGION') }}"
+      glue_version: "3.0"
+      workers: 2
+      worker_type: G.1X
+      idle_timeout: 10
+      schema: "analytics"
+      database: "analytics"
+      session_provisioning_timeout_in_seconds: 120
+      location: "s3://{{ env_var('DATA_S3_BUCKET') }}"
+      conf: "spark.serializer=org.apache.spark.serializer.KryoSerializer"
+      extra_jars: s3://{{ env_var('JAR_S3_BUCKET') }}/hudi/hudi-utilities-bundle_2.12-0.12.1.jar,s3://{{ env_var('JAR_S3_BUCKET') }}/hudi/hudi-spark3.1-bundle_2.12-0.12.1.jar,s3://{{ env_var('JAR_S3_BUCKET') }}/hudi/spark-avro_2.12-3.2.2.jar,s3://{{ env_var('JAR_S3_BUCKET') }}/hudi/calcite-core-1.32.0.jar
+      default_arguments: "--enable-metrics=true, --enable-continuous-cloudwatch-log=true, --enable-continuous-log-filter=true, --enable-spark-ui=true, --spark-event-logs-path=s3://{{ env_var('LOGS_S3_BUCKET') }}/dbt/"
+      # --enable-auto-scaling=true, 
+  target: dev
